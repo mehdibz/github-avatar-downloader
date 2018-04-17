@@ -1,12 +1,14 @@
-var input = process.argv.slice(2);
+// Requires part.
 var request = require('request');
 var Tocken = require('./secrets');
 var fs = require('fs');
+
+// Define the program argumans.
+var input = process.argv.slice(2);
 var repoOwner = input[0];
 var repoName = input[1];
-
-
-function getRepoContributors(repoOwner, repoName, cb) {
+//===============================================
+function getRepoContributors(repoOwner, repoName, cb) {		// Connect to the Repo with identification by calling the tocken.
   var options = {
     url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
     headers: {
@@ -29,13 +31,13 @@ function getRepoContributors(repoOwner, repoName, cb) {
 }
 
 
-function downloadImageByURL(url, filePath) {
+function downloadImageByURL(url, filePath) {	//Downloading image by having URL and File path.
 
-request.get(url)    // Note 1
-       .on('error', function (err) {                                   // Note 2
+request.get(url)   
+       .on('error', function (err) {                                   
          throw err; 
        })
-       .on('response', function (response) {                           // Note 3
+       .on('response', function (response) {                           
          console.log('Downloading image...');
          console.log('Response Status Code: ', response.statusCode, "Header content = " ,response.headers['content-type']);
 		 
@@ -48,8 +50,8 @@ request.get(url)    // Note 1
 }
 //======================================================================================
 
-if (input.length < 2) {
-	console.log("Please enter the correct format of parameters \n node download_avatars <repoOwner> <repoName>");
+if (input.length < 2) {		//Check the input parameters.
+	console.log("\nPlease enter the correct format of parameters \n\nnode download_avatars <repoOwner> <repoName> \n");
 }else{
   	getRepoContributors(repoOwner, repoName, function(err, result) {
   	console.log("Errors:", err);
